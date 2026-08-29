@@ -1,1 +1,186 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Press Start 2P", "Rubik", sans-serif;
+  --font-body: "Rubik", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "SF Mono", monospace;
+
+  --color-ink: #0b0e14;
+  --color-coal: #10141d;
+  --color-panel: #141926;
+  --color-panel2: #1a2132;
+  --color-line: #252e42;
+  --color-line2: #34405e;
+  --color-fog: #8d97ac;
+  --color-paper: #e9edf5;
+  --color-ember: #ff6b35;
+  --color-ember2: #ff4500;
+  --color-lagoon: #2dd4bf;
+  --color-lemon: #ffd166;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- фон «миллиметровка» + цветные засветки ---------- */
+.bg-blueprint {
+  background-image:
+    radial-gradient(900px 480px at 12% -6%, rgba(255, 107, 53, 0.08), transparent 60%),
+    radial-gradient(820px 520px at 96% 4%, rgba(45, 212, 191, 0.07), transparent 62%),
+    radial-gradient(760px 600px at 50% 118%, rgba(255, 209, 102, 0.05), transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: auto, auto, auto, 34px 34px, 34px 34px;
+}
+
+/* ---------- появление при скролле ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.9, 0.3, 1), transform 0.7s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+.reveal.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- подсветка кода ---------- */
+.tk-c { color: #5d6577; font-style: italic; }  /* комментарий */
+.tk-s { color: #ffd166; }                      /* строка */
+.tk-k { color: #ff8f5e; }                      /* ключевое слово */
+.tk-n { color: #7ee0c2; }                      /* число */
+.tk-f { color: #9ecbff; }                      /* имя функции */
+.tk-t { color: #ff8f5e; }                      /* html-тег */
+.tk-a { color: #7ee0c2; }                      /* атрибут */
+.tk-h { color: #c08bff; }                      /* заголовки md */
+
+/* ---------- мелкие элементы ---------- */
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  border: 1px solid var(--color-line2);
+  border-bottom-width: 2px;
+  background: var(--color-panel2);
+  color: var(--color-lemon);
+  white-space: nowrap;
+}
+
+.pixel-btn {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: 1px solid var(--color-line2);
+  transition: transform 0.12s, border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.pixel-btn:hover { transform: translateY(-2px); }
+.pixel-btn:active { transform: translateY(0) scale(0.96); }
+
+/* ---------- анимации ---------- */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(2, 190, 1, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(2, 190, 1, 0); }
+}
+.dot-live { animation: pulse-dot 1.8s infinite; }
+
+@keyframes dock-shake {
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+.dock-shake { animation: dock-shake 0.32s; }
+
+@keyframes feed-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+.feed-in { animation: feed-in 0.28s ease-out; }
+
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+.caret-blink { animation: caret-blink 1s step-end infinite; }
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+.dash-flow { animation: dash-flow 1.1s linear infinite; }
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.floaty { animation: floaty 3.2s ease-in-out infinite; }
+
+/* сканлайны на экране подключения */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---------- слайдер прозрачности оверлея ---------- */
+input[type="range"].ovl-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 96px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-line2);
+  outline: none;
+}
+input[type="range"].ovl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--color-lagoon);
+  border: 2px solid var(--color-ink);
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+input[type="range"].ovl-range::-webkit-slider-thumb:hover { transform: scale(1.25); }
+input[type="range"].ovl-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--color-lagoon);
+  border: 2px solid var(--color-ink);
+  cursor: pointer;
+}
+
+/* ---------- скроллбары ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb { background: var(--color-line2); border-radius: 5px; border: 2px solid var(--color-ink); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-fog); }
+
+/* тонкая рамка для канваса-демо */
+.board-frame {
+  box-shadow:
+    0 0 0 1px var(--color-line),
+    0 24px 70px -20px rgba(0, 0, 0, 0.8);
+}
